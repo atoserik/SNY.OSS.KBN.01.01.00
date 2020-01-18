@@ -1,3 +1,6 @@
+sudo apt-get install language-pack-UTF-8
+sudo apt upgrade -y
+
 apt-get remove -y docker.io kubelet kubeadm kubectl kubernetes-cni
 apt-get autoremove -y
 systemctl daemon-reload
@@ -9,7 +12,7 @@ EOF
 echo "KUBELET_EXTRA_ARGS=--cgroup-driver=systemd" > /etc/default/kubelet
 
 apt-get update
-apt-get install -y docker.io=18.09.7-0ubuntu1~16.04.5 kubelet=1.15.3-00 kubeadm=1.15.3-00 kubectl=1.15.3-00 kubernetes-cni
+apt-get install -y docker.io kubelet kubeadm kubectl kubernetes-cni
 systemctl enable kubelet && systemctl start kubelet
 
 cat > /etc/docker/daemon.json <<EOF

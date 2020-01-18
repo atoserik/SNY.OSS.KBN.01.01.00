@@ -43,7 +43,7 @@ spec:
     max: 65535
   # SELinux
   seLinux:
-    # SELinux is unused in CaaSP
+    # SELinux is unsed in CaaSP
     rule: 'RunAsAny'
 ---
 kind: ClusterRole
@@ -106,7 +106,7 @@ data:
   cni-conf.json: |
     {
       "name": "cbr0",
-      "cniVersion": "0.3.1",
+      "cniVersion": "0.2.0",
       "plugins": [
         {
           "type": "flannel",
@@ -149,20 +149,9 @@ spec:
         tier: node
         app: flannel
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - amd64
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -200,7 +189,7 @@ spec:
         securityContext:
           privileged: false
           capabilities:
-            add: ["NET_ADMIN"]
+             add: ["NET_ADMIN"]
         env:
         - name: POD_NAME
           valueFrom:
@@ -244,20 +233,9 @@ spec:
         tier: node
         app: flannel
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - arm64
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: arm64
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -338,20 +316,9 @@ spec:
         tier: node
         app: flannel
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - arm
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -432,20 +399,9 @@ spec:
         tier: node
         app: flannel
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - ppc64le
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: ppc64le
       tolerations:
       - operator: Exists
         effect: NoSchedule
@@ -526,20 +482,9 @@ spec:
         tier: node
         app: flannel
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: beta.kubernetes.io/os
-                    operator: In
-                    values:
-                      - linux
-                  - key: beta.kubernetes.io/arch
-                    operator: In
-                    values:
-                      - s390x
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: s390x
       tolerations:
       - operator: Exists
         effect: NoSchedule

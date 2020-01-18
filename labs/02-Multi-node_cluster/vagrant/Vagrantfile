@@ -22,8 +22,11 @@ MINIONSCRIPT
 
 $kubemasterscript = <<SCRIPT
 
+sudo locale-gen UTF-8
+sudo apt upgrade -y
+
 kubeadm reset -f
-kubeadm init --kubernetes-version v1.15.3 --apiserver-advertise-address=#{MASTER_IP} --pod-network-cidr=#{POD_NW_CIDR} --token #{KUBETOKEN} --token-ttl 0
+kubeadm init --apiserver-advertise-address=#{MASTER_IP} --pod-network-cidr=#{POD_NW_CIDR} --token #{KUBETOKEN} --token-ttl 0
 mkdir -p $HOME/.kube
 sudo cp -Rf /etc/kubernetes/admin.conf $HOME/.kube/config
 
@@ -39,10 +42,10 @@ sudo chmod -R 755 /storage
 sudo apt-get install -y nfs-kernel-server 
 sudo mkdir /shared
 sudo chmod 755 /shared
-sudo echo "/shared 192.168.26.0/24(rw,no_root_squash)" >> /etc/exports
+sudo echo "/shared 192.168.26.0/24(rw,no_root_squash,subtree_check)" >> /etc/exports
 sudo exportfs -a
 sudo service nfs-kernel-server restart
-sudo service idmapd restart 
+#sudo service idmapd restart 
 
 # Dashboard installation
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml
@@ -81,8 +84,8 @@ Vagrant.configure("2") do |config|
         vb.name = "master"
       end
       subconfig.vm.provision :shell, inline: $kubemasterscript
-      subconfig.vm.provision :shell, :path => "scripts/install_on_cluster.sh"
-      subconfig.vm.synced_folder "../../..", "/usr/src/git_repo"
+      #subconfig.vm.provision :shell, :path => "scripts/install_on_cluster.sh"
+      #subconfig.vm.synced_folder "../../..", "/usr/src/git_repo"
     end
   end
   
